@@ -9,18 +9,17 @@ class App extends Component {
   state = {
     todos: [],
     id: uuid(),
-    todo: '',
+    todo: "",
     editItem: false
   };
 
   inputChangeHandler = e => {
     this.setState({
       todo: e.target.value
-    })
-    console.log(this.state.todo);
+    });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     const newTodo = {
       id: this.state.id,
@@ -30,12 +29,25 @@ class App extends Component {
     const updatedTodos = [...this.state.todos, newTodo];
     this.setState({
       todos: updatedTodos,
-      todo: '',
+      todo: "",
       id: uuid(),
       editItem: false
-    })
+    });
+  };
 
+  clearList = () => {
+    this.setState({
+      todos: []
+    });
+  };
+
+  removeTodo = (id) => {
+    const filteredTodos = this.state.todos.filter(todo => todo.id !== id);
+    this.setState({
+      todos: filteredTodos
+    })
   }
+
   render() {
     return (
       <div className="container">
@@ -47,7 +59,7 @@ class App extends Component {
               handleChange={this.inputChangeHandler}
               handleSubmit={this.handleSubmit}
             />
-            <TodoList todos={this.state.todos}/>
+            <TodoList todos={this.state.todos} clearList={this.clearList} removeTodo={this.removeTodo} />
           </div>
         </div>
       </div>
