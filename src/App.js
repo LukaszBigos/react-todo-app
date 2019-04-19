@@ -41,12 +41,27 @@ class App extends Component {
     });
   };
 
-  removeTodo = (id) => {
+  removeTodo = id => {
     const filteredTodos = this.state.todos.filter(todo => todo.id !== id);
     this.setState({
       todos: filteredTodos
-    })
-  }
+    });
+  };
+
+  handleEdit = id => {
+    const filteredList = this.state.todos.filter(todo => {
+      return todo.id !== id;
+    });
+
+    const editedTodo = this.state.todos.find(todo => todo.id === id);
+
+    this.setState({
+      todos: filteredList,
+      editItem: true,
+      todo: editedTodo.todo,
+      id: id
+    });
+  };
 
   render() {
     return (
@@ -58,8 +73,14 @@ class App extends Component {
               todo={this.state.todo}
               handleChange={this.inputChangeHandler}
               handleSubmit={this.handleSubmit}
+              editItem={this.state.editItem}
             />
-            <TodoList todos={this.state.todos} clearList={this.clearList} removeTodo={this.removeTodo} />
+            <TodoList
+              todos={this.state.todos}
+              clearList={this.clearList}
+              removeTodo={this.removeTodo}
+              handleEdit={this.handleEdit}
+            />
           </div>
         </div>
       </div>
